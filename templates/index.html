@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Todo List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <div class="todo-app">
+            <header>
+                <h1 class="app-title">My Todo List</h1>
+            </header>
+
+            <!-- Task Input Form -->
+            <div class="task-form">
+                <input type="text" class="task-input" placeholder="What do you need to do?" />
+                <button class="add-btn">Add</button>
+            </div>
+
+            <!-- Task List -->
+            <ul class="task-list">
+                <!-- Tasks will be dynamically added here -->
+            </ul>
+
+            <footer class="footer">
+                <p>Created with ❤️ by YourName</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addBtn = document.querySelector('.add-btn');
+            const taskInput = document.querySelector('.task-input');
+            const taskList = document.querySelector('.task-list');
+
+            // Add Task
+            addBtn.addEventListener('click', function () {
+                const taskText = taskInput.value.trim();
+                if (taskText) {
+                    const taskItem = document.createElement('li');
+                    taskItem.classList.add('task-item');
+                    taskItem.innerHTML = `
+                        <span class="task-text">${taskText}</span>
+                        <div class="task-actions">
+                            <button class="toggle-btn">✔</button>
+                            <button class="delete-btn">🗑️</button>
+                        </div>
+                    `;
+                    taskList.appendChild(taskItem);
+                    taskInput.value = '';
+                }
+            });
+
+            // Toggle Task Completion
+            taskList.addEventListener('click', function (e) {
+                if (e.target.classList.contains('toggle-btn')) {
+                    const taskItem = e.target.closest('.task-item');
+                    taskItem.classList.toggle('completed');
+                }
+            });
+
+            // Delete Task
+            taskList.addEventListener('click', function (e) {
+                if (e.target.classList.contains('delete-btn')) {
+                    const taskItem = e.target.closest('.task-item');
+                    taskItem.remove();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
